@@ -1,62 +1,75 @@
 # Real-Time Delivery Time Prediction System
 
-A production-inspired machine learning system that predicts delivery time using real-time inputs and simulates key MLOps components such as monitoring, drift detection, and retraining.
+A production-style machine learning system that predicts delivery time using real-time inputs.
+This project simulates a real-world ML pipeline with **API deployment, monitoring, drift detection, and automated retraining**.
+
+---
+
+## Live Demo
+
+Access the deployed API:
+
+https://real-time-delivery-prediction-system.onrender.com/docs
 
 ---
 
 ## Overview
 
-This project builds an end-to-end ML pipeline for predicting delivery time based on factors like distance, traffic, weather, and time of day.
+This project builds an end-to-end ML pipeline for predicting delivery time based on:
 
-It simulates a real-world production system by integrating:
-- Model training and evaluation
-- Real-time inference using API
-- Model monitoring
-- Data drift detection
-- Automated retraining
+* Distance
+* Traffic conditions
+* Weather
+* Time of order
+
+It demonstrates how ML systems are deployed and maintained in production environments.
 
 ---
 
 ## Tech Stack
 
-- Python
-- Scikit-learn (Random Forest)
-- FastAPI (real-time API)
-- Pandas, NumPy
-- Uvicorn
+* **Python**
+* **Scikit-learn (Random Forest)**
+* **FastAPI (real-time API)**
+* **Pandas, NumPy**
+* **Uvicorn**
+* **Render (Deployment)**
 
 ---
 
-## Features
+## Key Features
 
-### 1. Real-Time Inference
-- REST API using FastAPI
-- Accepts real-time input and returns predictions
+### 🔹 Real-Time Inference
 
-### 2. Feature Engineering
-- Encodes categorical variables (traffic, weather)
-- Uses domain-inspired features (peak hours, traffic levels)
+* REST API using FastAPI
+* Accepts JSON input and returns predictions
 
-### 3. Model Training
-- Random Forest Regressor
-- Evaluated using Mean Absolute Error (MAE)
+### 🔹 Model Training
 
-### 4. Monitoring
-- Tracks model performance on new incoming data
-- Evaluates prediction error
+* Random Forest Regressor
+* Evaluated using Mean Absolute Error (MAE)
 
-### 5. Drift Detection
-- Detects distribution shifts between old and new data
-- Flags performance degradation
+### 🔹 Monitoring
 
-### 6. Retraining Pipeline
-- Automatically retrains model when:
-  - Drift is detected OR
-  - Error exceeds threshold
+* Tracks model performance on new data
+
+### 🔹 Drift Detection
+
+* Detects data distribution changes
+
+### 🔹 Automated Retraining
+
+* Retrains model when performance degrades
+
+### 🔹 Deployment-Ready Design
+
+* Auto-trains model during deployment
+* No dependency on local model files
 
 ---
 
-## Architecture
+## System Architecture
+
 flowchart
 
         +----------------------+
@@ -102,55 +115,124 @@ flowchart
 
 ---
 
-## How to Run
-- Clone the Repository
-  git clone <your-repo-link>
-  cd delivery-time-ml
+## How to Run Locally
 
-- Install Dependencies
-  pip install -r requirements.txt
+### 1. Clone Repository
 
-- Generate Dataset
-  python src/generate_data.py
-
-  This creates:
-    - data/raw_data.csv
-    - data/new_data.csv
-
-- Train the Model
-  python src/train.py
-
-  This saves:
-  - models/model.pkl
-
-- Run Monitoring & Drift Detection
-  python src/monitor.py
-  python src/drift.py
-  python src/retrain.py
-
-- Start the API Server
-  python -m uvicorn app:app --reload
-
-- Open Swagger UI
-
-- Test Prediction
-  Use the /predict endpoint with:
-  
-  {
-    "distance_km": 5.2,
-    "traffic_level": "medium",
-    "weather": "clear",
-    "order_hour": 13
-  }
-
-  Output Example
-  {
-    "predicted_delivery_time_min": 39.5
-  }
+```bash
+git clone https://github.com/SmritiSinhaWork/Real-Time-Delivery-Prediction-System.git
+cd Real-Time-Delivery-Prediction-System
+```
 
 ---
 
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 3. Generate Dataset
+
+```bash
+python src/generate_data.py
+```
+
+---
+
+### 4. Train Model
+
+```bash
+python -m src.train
+```
+
+---
+
+### 5. Start API Server
+
+```bash
+python -m uvicorn app:app --reload
+```
+
+---
+
+### 6. Open Swagger UI
+
+http://127.0.0.1:8000/docs
+
+---
+
+### 7. Test Prediction
+
+```json
+{
+  "distance_km": 5.2,
+  "traffic_level": "medium",
+  "weather": "clear",
+  "order_hour": 13
+}
+```
+
+---
+
+## Deployment Strategy
+
+* Model file is **not stored in the repository**
+* On deployment:
+
+  * System checks for model
+  * If missing → trains automatically
+* Ensures:
+
+  * No GitHub size issues
+  * No file corruption
+  * Clean and scalable deployment
+
+---
+
+## Project Structure
+
+```
+Real-Time-Delivery-Prediction-System/
+├── data/
+├── models/              # auto-created during runtime
+├── src/
+│   ├── generate_data.py
+│   ├── preprocess.py
+│   ├── train.py
+│   ├── predict.py
+│   ├── monitor.py
+│   ├── drift.py
+│   └── retrain.py
+├── app.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Screenshots
+
+<img width="1880" height="843" alt="image" src="https://github.com/user-attachments/assets/704ad369-319c-4704-8e38-5b32ea367f94" />
+* Swagger UI
+
+<img width="1840" height="819" alt="image" src="https://github.com/user-attachments/assets/17a468db-18e1-4d18-94ad-015aebe63e11" />
+* Input
+
+<img width="1836" height="638" alt="image" src="https://github.com/user-attachments/assets/1103715b-7b86-402f-b8bb-5f0cc651bac3" />
+* Prediction output
+
+---
 
 ## Use Case
 
-Inspired by real-world logistics systems (e.g., Zepto, Swiggy), where delivery time prediction directly impacts customer experience and operational efficiency.
+Inspired by real-world logistics platforms like **Swiggy / Zepto**, where accurate delivery time prediction directly impacts user experience and operational efficiency.
+
+---
+
+## Author
+
+**Smriti Sinha**
+GitHub: https://github.com/SmritiSinhaWork
