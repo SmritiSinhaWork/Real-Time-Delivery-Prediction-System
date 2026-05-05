@@ -18,3 +18,7 @@ def root():
 def predict(payload: Payload):
     pred = predict_one(payload.dict())
     return {"predicted_delivery_time_min": round(pred, 2)}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)
