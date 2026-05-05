@@ -57,74 +57,96 @@ It simulates a real-world production system by integrating:
 ---
 
 ## Architecture
-flowchart TD
+flowchart
 
-A[Raw Data / Input] --> B[Preprocessing]
-B --> C[Feature Engineering]
-C --> D[ML Model Training<br/>Random Forest]
-D --> E[Model Saved<br/>model.pkl]
-
-E --> F[FastAPI Server<br/>Real-Time Inference]
-F --> G[Prediction API<br/>/predict]
-
-E --> H[Monitoring]
-H --> I[MAE Evaluation]
-
-I --> J[Drift Detection]
-J --> K{Drift or High Error?}
-
-K -- Yes --> L[Retrain Model]
-L --> E
-
-K -- No --> M[Continue Serving Predictions]
+        +----------------------+
+        |   Raw Training Data  |
+        +----------+-----------+
+                   |
+                   v
+          +------------------+
+          |   Preprocessing  |
+          | (Encoding, Clean)|
+          +------------------+
+                   |
+                   v
+          +------------------+
+          |   ML Model       |
+          | (Random Forest)  |
+          +------------------+
+                   |
+                   v
+          +------------------+
+          |   Model Storage  |
+          |   (model.pkl)    |
+          +------------------+
+                   |
+                   v
+         ------------------------
+         |                      |
+         v                      v
++------------------+   +------------------+
+|   FastAPI        |   |   Monitoring     |
+|   (Inference)    |   |   (MAE Tracking) |
++------------------+   +------------------+
+         |                      |
+         v                      v
++-----------------------+   +------------------+        
+| Real-time Predictions |   |  Drift Detection |
++-----------------------+   +------------------+       
+                             |
+                             v
+                      +------------------+
+                      | Retraining Logic |
+                      +------------------+
 
 ---
 
 ## How to Run
-1. Clone the Repository
-git clone <your-repo-link>
-cd delivery-time-ml
-2. Install Dependencies
-pip install -r requirements.txt
-3. Generate Dataset
-python src/generate_data.py
+- Clone the Repository
+  git clone <your-repo-link>
+  cd delivery-time-ml
 
-This creates:
+- Install Dependencies
+  pip install -r requirements.txt
 
-data/raw_data.csv
-data/new_data.csv
-4. Train the Model
-python src/train.py
+- Generate Dataset
+  python src/generate_data.py
 
-This saves:
+  This creates:
+    - data/raw_data.csv
+    - data/new_data.csv
 
-models/model.pkl
-5. Run Monitoring & Drift Detection (Optional)
-python src/monitor.py
-python src/drift.py
-python src/retrain.py
-6. Start the API Server
-python -m uvicorn app:app --reload
-7. Open Swagger UI
+- Train the Model
+  python src/train.py
 
-Go to:
+  This saves:
+  - models/model.pkl
 
-http://127.0.0.1:8000/docs
+- Run Monitoring & Drift Detection
+  python src/monitor.py
+  python src/drift.py
+  python src/retrain.py
 
-8. Test Prediction
+- Start the API Server
+  python -m uvicorn app:app --reload
 
-Use the /predict endpoint with:
+- Open Swagger UI
 
-{
-  "distance_km": 5.2,
-  "traffic_level": "medium",
-  "weather": "clear",
-  "order_hour": 13
-}
-Output Example
-{
-  "predicted_delivery_time_min": 39.5
-}
+- Test Prediction
+  Use the /predict endpoint with:
+  
+  {
+    "distance_km": 5.2,
+    "traffic_level": "medium",
+    "weather": "clear",
+    "order_hour": 13
+  }
+
+  Output Example
+  {
+    "predicted_delivery_time_min": 39.5
+  }
 
 ---
 
