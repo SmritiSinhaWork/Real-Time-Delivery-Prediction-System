@@ -21,6 +21,10 @@ def train_and_save(data_path="data/raw_data.csv", model_path="models/model.pkl")
     mae = mean_absolute_error(y_val, preds)
     print(f"Validation MAE: {mae:.3f}")
 
+    import os
+
+    os.makedirs("models", exist_ok=True)
+    
     with open(model_path, 'wb') as f:
         pickle.dump(model, f)
 
