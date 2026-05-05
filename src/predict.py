@@ -4,7 +4,8 @@ from src.preprocess import preprocess
 
 MODEL_PATH = "models/model.pkl"
 
-with open(MODEL_PATH, 'rb') as f:
+
+with open("models/model.pkl", "rb") as f:
     model = pickle.load(f)
 
 def predict_one(payload: dict) -> float:
