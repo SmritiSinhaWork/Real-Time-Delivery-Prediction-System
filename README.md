@@ -150,6 +150,7 @@ flowchart
 
 ---
 
-##Use Case
+
+## Use Case
 
 Inspired by real-world logistics systems (e.g., Zepto, Swiggy), where delivery time prediction directly impacts customer experience and operational efficiency.
